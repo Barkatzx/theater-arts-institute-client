@@ -1,10 +1,14 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const Login = () => {
   return (
     <div className="flex flex-col items-center  mt-10">
+         <Helmet>
+        <title>Login | Theater Art Institute</title>
+      </Helmet>
       <div className=" bg-white p-10 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-bold mb-5 text-center">Login</h2>
         <form>
