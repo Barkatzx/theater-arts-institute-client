@@ -57,7 +57,7 @@ const SignUp = () => {
       </Helmet>
       <div className=" bg-white p-10 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-bold mb-5 text-center">Registration</h2>
-        <form>
+        <form onSubmit={handleSubmit (onSubmit)} >
           <div className="mb-6">
             <label htmlFor="name" className=" text-gray-700 font-bold mb-2">
               Name
