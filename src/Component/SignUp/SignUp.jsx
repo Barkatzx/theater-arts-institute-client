@@ -2,8 +2,54 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const SignUp = () => {
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const onSubmit = data => {
+
+        createUser(data.email, data.password)
+            .then(result => {
+
+                const loggedUser = result.user;
+                console.log(loggedUser);
+
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        const saveUser = { name: data.name, email: data.email }
+                        fetch('https://localhost:5000/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(saveUser)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.insertedId) {
+                                    reset();
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'User created successfully.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/');
+                                }
+                            })
+
+
+
+                    })
+                    .catch(error => console.log(error))
+            })
+    };
+
   return (
     <div className="flex flex-col items-center mt-10">
         <Helmet>
