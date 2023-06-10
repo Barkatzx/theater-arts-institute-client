@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiFillDashboard } from "react-icons/ai";
 import { CgClipboard } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -25,8 +25,8 @@ const Navbar = () => {
 
   return (
     <div className="bg-slate-100">
-      <nav className="flex items-center justify-between p-4 shadow-xl text-xl font-semibold">
-        <div className="flex items-center">
+      <nav className="flex flex-col md:flex-row items-center justify-between p-4 shadow-xl text-xl font-semibold">
+        <div className="flex items-center justify-center">
           <Link to="/">
             <img
               src="https://i.ibb.co/cQ68nnZ/Arts-Institute-removebg-preview-1.png"
@@ -46,7 +46,6 @@ const Navbar = () => {
             to="/"
             className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
           >
-            {" "}
             <AiFillHome />
             Home
           </Link>
@@ -54,7 +53,6 @@ const Navbar = () => {
             to="/classes"
             className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
           >
-            {" "}
             <CgClipboard />
             Classes
           </Link>
@@ -62,20 +60,20 @@ const Navbar = () => {
             to="/instructors"
             className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
           >
-            {" "}
             <FaUserCircle />
             Instructors
           </Link>
-          <Link
-            to="/dashboard"
-            className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
-          >
-            {" "}
-            <FaUserCircle />
-            Dashboard
-          </Link>
+          {user && (
+            <Link
+              to="/dashboard"
+              className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
+            >
+              <AiFillDashboard />
+              Dashboard
+            </Link>
+          )}
         </div>
-        <div className="flex gap-5 items-center mr-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-center gap-5 mt-4 md:mt-0">
           <span className="">
             {user ? (
               <button
@@ -115,11 +113,6 @@ const Navbar = () => {
               </label>
             </span>
           )}
-          {/* <Link to="/login">
-            <button className="bg-indigo-800 text-white py-3 px-10 rounded-3xl">
-              Login
-            </button>
-          </Link> */}
         </div>
         <button
           className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden"
