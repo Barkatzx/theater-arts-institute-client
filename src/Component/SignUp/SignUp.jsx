@@ -1,69 +1,82 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../../Provider/AuthProvider';
+import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
+import { FcGoogle } from "react-icons/fc";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { createUser, googleSignIn, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { createUser, updateUserProfile } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const handleRegisterwithGoogle = () => {
+    googleSignIn()
+      .then((result) => {
+        const loggedInUser = result.user;
+        setUser(loggedInUser);
+        form.reset();
+        navigate(from, { replace: true });
+      })
+      .catch(console.error());
+  };
 
-    const onSubmit = data => {
+  const onSubmit = (data) => {
+    createUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
 
-        createUser(data.email, data.password)
-            .then(result => {
-
-                const loggedUser = result.user;
-                console.log(loggedUser);
-
-                updateUserProfile(data.name, data.photoURL)
-                    .then(() => {
-                        const saveUser = { name: data.name, email: data.email }
-                        fetch('https://localhost:5000/users', {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json'
-                            },
-                            body: JSON.stringify(saveUser)
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.insertedId) {
-                                    reset();
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: 'User created successfully.',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                    navigate('/');
-                                }
-                            })
-
-
-
-                    })
-                    .catch(error => console.log(error))
-            })
-    };
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          const saveUser = { name: data.name, email: data.email };
+          fetch("https://localhost:5000/users", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(saveUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "User created successfully.",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              }
+            });
+        })
+        .catch((error) => console.log(error));
+    });
+  };
 
   return (
     <div className="flex flex-col items-center mt-10">
-        <Helmet>
+      <Helmet>
         <title>Registration | Theater Art Institute</title>
       </Helmet>
       <div className=" bg-white p-10 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-bold mb-5 text-center">Registration</h2>
-        <form onSubmit={handleSubmit (onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label htmlFor="name" className=" text-gray-700 font-bold mb-2">
-              Name
+              {" "}
+              Name{" "}
             </label>
             <input
               type="text"
+              {...register("name", { required: true })}
               id="name"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your name"
@@ -72,10 +85,12 @@ const SignUp = () => {
           </div>
           <div className="mb-6">
             <label htmlFor="email" className=" text-gray-700 font-bold mb-2">
-              Email
+              {" "}
+              Email{" "}
             </label>
             <input
               type="email"
+              {...register("email", { required: true })}
               id="email"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your email"
@@ -88,6 +103,11 @@ const SignUp = () => {
             </label>
             <input
               type="password"
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                maxLength: 20,
+              })}
               id="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your password"
@@ -95,7 +115,10 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className=" text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="confirmPassword"
+              className=" text-gray-700 font-bold mb-2"
+            >
               Confirm Password
             </label>
             <input
@@ -112,9 +135,11 @@ const SignUp = () => {
             </label>
             <input
               type="text"
+              {...register("photoURL")}
               id="photoURL"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your photo URL"
+              required
             />
           </div>
           <button
@@ -130,13 +155,17 @@ const SignUp = () => {
           </div>
           <button
             type="button"
+            onClick={handleRegisterwithGoogle}
             className="bg-red-500 text-white rounded px-4 py-2 font-semibold hover:bg-red-600 transition-colors w-full mt-4 flex items-center justify-center rounded-lg"
           >
             <FcGoogle className="mr-2" size={20} />
             Sign Up with Google
           </button>
           <p className="mt-4 text-center text-gray-600">
-            Already have an account? <Link to="/login"><span className='text-indigo-800'>Log in</span> </Link> 
+            Already have an account?{" "}
+            <Link to="/login">
+              <span className="text-indigo-800">Log in</span>{" "}
+            </Link>
           </p>
         </form>
       </div>
