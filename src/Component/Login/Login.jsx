@@ -3,10 +3,10 @@ import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const { signIn, googleSignIn, setUser } = useContext(AuthContext);
-  const [error, setError] = useState("");
   const emailRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,27 +23,34 @@ const Login = () => {
       .catch(console.error);
   };
 
+
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
-    const email = form.email?.value;
-    const password = form.password?.value;
-    setError("");
-
-    if (password.length < 8) {
-      setError("Password Must Be 8 Characters Or Longer");
-      return;
-    }
-
+    const email = form.email.value;
+    const password = form.password.value;
+  
     signIn(email, password)
       .then((result) => {
-        const loggedUser = result.user;
-        setUser(loggedUser);
-        form.reset();
+        const user = result.user;
+        console.log(user);
+        Swal.fire({
+          title: "User Login Successful.",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+        });
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        setError(error.message);
+        Swal.fire({
+          icon: "error",
+          title: "Login Error",
+          text: error.message,
+        });
       });
   };
 

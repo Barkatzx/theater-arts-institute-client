@@ -23,34 +23,12 @@ const AuthProvider = ({ children }) => {
 
   const createUser = (email, password) => {
     setLoading(true);
-    return new Promise((resolve, reject) => {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          resolve(userCredential.user);
-        })
-        .catch((error) => {
-          reject(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    });
+    return createUserWithEmailAndPassword(auth, email, password)
   };
 
   const signIn = (email, password) => {
     setLoading(true);
-    return new Promise((resolve, reject) => {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          resolve(userCredential.user);
-        })
-        .catch((error) => {
-          reject(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    });
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleSignIn = () => {
@@ -64,27 +42,26 @@ const AuthProvider = ({ children }) => {
   };
 
   const updateUserProfile = (name, photo) => {
-    return updateProfile(auth, currentUser, {
-      displayName: name,
-      photoURL: photo,
+    return updateProfile(auth.currentUser, {
+        displayName: name, photoURL: photo
     });
-  };
+}
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log("current user", currentUser);
-    });
-    return () => {
-      return unsubscribe();
-    };
-  }, []);
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
+  
 
   const authInfo = {
     user,
     loading,
     createUser,
-    setUser,
     signIn,
     googleSignIn,
     logOut,

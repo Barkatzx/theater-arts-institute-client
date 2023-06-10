@@ -13,7 +13,10 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { createUser, googleSignIn, updateUserProfile } = useContext(AuthContext);
+
+  const { createUser, googleSignIn, updateUserProfile, setUser } =
+    useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const handleRegisterwithGoogle = () => {
@@ -21,45 +24,55 @@ const SignUp = () => {
       .then((result) => {
         const loggedInUser = result.user;
         setUser(loggedInUser);
-        form.reset();
+        reset();
         navigate(from, { replace: true });
       })
-      .catch(console.error());
+      .catch(console.error);
   };
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
-
-      updateUserProfile(data.name, data.photoURL)
-        .then(() => {
-          const saveUser = { name: data.name, email: data.email };
-          fetch("https://localhost:5000/users", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(saveUser),
+    createUser(data.email, data.password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+  
+        updateUserProfile(data.name, data.photoURL)
+          .then(() => {
+            const saveUser = { name: data.name, email: data.email };
+            fetch("https://localhost:5000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  reset();
+                  Swal.fire({
+                    position: "top-center",
+                    icon: "success",
+                    title: "User created successfully.",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  }).then(() => {
+                    navigate("/");
+                  });
+                }
+              });
           })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.insertedId) {
-                reset();
-                Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: "User created successfully.",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                navigate("/");
-              }
-            });
-        })
-        .catch((error) => console.log(error));
-    });
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "User Creation Error",
+          text: error.message,
+        });
+      });
   };
+  
 
   return (
     <div className="flex flex-col items-center mt-10">
@@ -82,6 +95,9 @@ const SignUp = () => {
               placeholder="Enter your name"
               required
             />
+            {errors.name && (
+              <span className="text-red-600">Name is required</span>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="email" className=" text-gray-700 font-bold mb-2">
@@ -96,6 +112,9 @@ const SignUp = () => {
               placeholder="Enter your email"
               required
             />
+            {errors.email && (
+              <span className="text-red-600">Email is required</span>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="password" className=" text-gray-700 font-bold mb-2">
@@ -107,27 +126,30 @@ const SignUp = () => {
                 required: true,
                 minLength: 6,
                 maxLength: 20,
+                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
               })}
               id="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your password"
               required
             />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="confirmPassword"
-              className=" text-gray-700 font-bold mb-2"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-              placeholder="Confirm your password"
-              required
-            />
+            {errors.password?.type === "required" && (
+              <p className="text-red-600">Password is required</p>
+            )}
+            {errors.password?.type === "minLength" && (
+              <p className="text-red-600">Password must be 6 characters</p>
+            )}
+            {errors.password?.type === "maxLength" && (
+              <p className="text-red-600">
+                Password must be less than 20 characters
+              </p>
+            )}
+            {errors.password?.type === "pattern" && (
+              <p className="text-red-600">
+                Password must have one Uppercase one lower case, one number and
+                one special character.
+              </p>
+            )}
           </div>
           <div className="mb-6">
             <label htmlFor="photoURL" className=" text-gray-700 font-bold mb-2">
@@ -141,6 +163,9 @@ const SignUp = () => {
               placeholder="Enter your photo URL"
               required
             />
+            {errors.photoURL && (
+                  <span className="text-red-600">Photo URL is required</span>
+                )}
           </div>
           <button
             type="submit"

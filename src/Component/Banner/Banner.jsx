@@ -16,7 +16,7 @@ const Banner = () => {
           <h2 className="text-white text-5xl lg:text-6xl leading-tight tracking-tighter font-bold">
           Transforming Your <span className='text-indigo-800'>Dreams</span> into Masterpieces
           </h2>
-          <p className="text-white py-7 text-xl">
+          <p className="text-white text-xl mt-5">
           Experience the transformation power of theater at the Art Institute, where aspiring actors, directors, and playwrights come together to cultivate their artistic talents. With a dynamic curriculum, state-of-the-art facilities, and passionate instructors, we ignite creativity and nurture the next generation of theatrical visionaries.
           </p>
         </div>
