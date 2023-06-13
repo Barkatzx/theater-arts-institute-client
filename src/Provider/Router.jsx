@@ -5,6 +5,10 @@ import Instractor from "../Component/Instractor/Instractor";
 import Main from "../Layout/Main";
 import Login from "../Component/Login/Login";
 import SignUp from "../Component/SignUp/SignUp";
+import AdminRoute from "./AdminRoute";
+import AllUser from "../Component/Dashboard/AllUser/AllUser";
+import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Component/Dashboard/Dashboard";
 
   
 
@@ -35,6 +39,17 @@ import SignUp from "../Component/SignUp/SignUp";
         },
       ]
     },
+    {
+      path: 'dashboard',
+      element: <PrivateRoute><Dashboard/></PrivateRoute>,
+      children: [
+        // admin routes
+        {
+          path: 'allusers', 
+          element: <AdminRoute><AllUser/></AdminRoute>
+        },
+      ]
+    }
   ]);
 
 export default router;

@@ -1,74 +1,96 @@
-import { FaTrashAlt, FaUserShield } from "react-icons/fa";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import Swal from "sweetalert2";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
-import { useEffect } from "react";
+import { FaTrashAlt, FaUserShield } from 'react-icons/fa';
+import { useQuery, useMutation, QueryClient, QueryClientProvider } from 'react-query';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
+import { useState } from 'react';
 
-const AllUsers = () => {
+const AllUser = () => {
   const [axiosSecure] = useAxiosSecure();
+  const [selectedRole, setSelectedRole] = useState('');
 
-  const queryClient = new QueryClient(); // Create a QueryClient instance
+  const queryClient = new QueryClient();
 
   const { data: users = [], refetch } = useQuery(
-    ['users'],
+    'users',
     async () => {
       const res = await axiosSecure.get('/users');
       return res.data;
     },
     {
-      queryClient, // Provide the QueryClient instance to useQuery
+      queryClient,
     }
   );
 
-  useEffect(() => {
-    const handleMakeAdmin = (user) => {
-      fetch(`http://localhost:5000/users/admin/${user._id}`, {
-        method: 'PATCH',
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.modifiedCount) {
-            refetch();
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: `${user.name} is an Admin Now!`,
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          }
+  const roleMutation = useMutation(
+    (user) => {
+      const role = selectedRole.toLowerCase();
+      return axiosSecure.patch(`/users/role/${user._id}/${role}`);
+    },
+    {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: (error) => {
+        console.error(error);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Failed to update the user role.',
+          showConfirmButton: false,
+          timer: 1500,
         });
-    };
+      },
+    }
+  );
 
-    const handleDelete = (user) => {
-      // Add your delete logic here
-    };
+  const isAdmin = true; // Replace this with your logic to determine if the current user is an admin
 
-    // You can move other side effects or initializations here
+  const handleMakeAdmin = (user) => {
+    setSelectedRole('admin');
+    roleMutation.mutate(user);
+  };
 
-    return () => {
-      // Cleanup logic, if any
-    };
-  }, [axiosSecure, refetch]);
+  const handleDelete = (user) => {
+    axiosSecure
+      .delete(`/users/${user._id}`)
+      .then(() => {
+        refetch();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `${user.name} has been deleted.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Failed to delete the user.',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
+  };
 
   return (
     <div className="w-full">
       <h3 className="text-3xl font-semibold my-4">Total Users: {users.length}</h3>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
-          {/* head */}
           <thead>
             <tr>
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Action</th>
+              {isAdmin && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
-            {Array.isArray(users) ? (
+            {Array.isArray(users) && users.length > 0 ? (
               users.map((user, index) => (
                 <tr key={user._id}>
                   <th>{index + 1}</th>
@@ -78,22 +100,32 @@ const AllUsers = () => {
                     {user.role === 'admin' ? (
                       'admin'
                     ) : (
-                      <button
-                        onClick={() => handleMakeAdmin(user)}
-                        className="btn btn-ghost bg-orange-600  text-white"
-                      >
-                        <FaUserShield></FaUserShield>
-                      </button>
+                      <div>
+                        {user.role === 'instructor' ? (
+                          'instructor'
+                        ) : (
+                          <button
+                            onClick={() => handleMakeAdmin(user)}
+                            className={`btn btn-ghost bg-orange-600 text-white ${
+                              isAdmin ? '' : 'hidden'
+                            }`}
+                          >
+                            <FaUserShield />
+                          </button>
+                        )}
+                      </div>
                     )}
                   </td>
-                  <td>
-                    <button
-                      onClick={() => handleDelete(user)}
-                      className="btn btn-ghost bg-red-600  text-white"
-                    >
-                      <FaTrashAlt></FaTrashAlt>
-                    </button>
-                  </td>
+                  {isAdmin && (
+                    <td>
+                      <button
+                        onClick={() => handleDelete(user)}
+                        className="btn btn-ghost bg-red-600 text-white"
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))
             ) : (
@@ -108,14 +140,17 @@ const AllUsers = () => {
   );
 };
 
-const App = () => {
-  const queryClient = new QueryClient(); // Create a QueryClient instance
+export default AllUser;
+// const App = () => {
+//   const queryClient = new QueryClient();
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AllUsers />
-    </QueryClientProvider>
-  );
-};
+//   return (
+//     <QueryClientProvider client={queryClient}>
+//       <div className="container mx-auto">
+//         <AllUsers />
+//       </div>
+//     </QueryClientProvider>
+//   );
+// };
 
-export default App;
+// export default App;
