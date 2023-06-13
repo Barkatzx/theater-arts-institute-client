@@ -4,6 +4,7 @@ import { AiFillHome, AiFillDashboard } from "react-icons/ai";
 import { CgClipboard } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,8 +15,18 @@ const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
+      Swal.fire({
+        icon: "success",
+        title: "Logged Out",
+        text: "You have been successfully logged out.",
+      });
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Logout Failed",
+        text: "Failed to log out. Please try again.",
+      });
     }
   };
 
@@ -77,10 +88,10 @@ const Navbar = () => {
           <span className="">
             {user ? (
               <button
-                className="bg-indigo-800 text-white py-3 px-10 rounded-3xl"
+                className="bg-indigo-800 text-white py-3 px-5 rounded-3xl hover:bg-indigo-600"
                 onClick={handleSignOut}
               >
-                Sign Out
+                Logout
               </button>
             ) : (
               <Link

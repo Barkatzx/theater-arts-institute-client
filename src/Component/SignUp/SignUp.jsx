@@ -39,10 +39,10 @@ const SignUp = () => {
         updateUserProfile(data.name, data.photoURL)
           .then(() => {
             const saveUser = { name: data.name, email: data.email };
-            fetch("https://localhost:5000/users", {
+            fetch("http://localhost:5000/users", {
               method: "POST",
               headers: {
-                "content-type": "application/json",
+                "Content-Type": "application/json",
               },
               body: JSON.stringify(saveUser),
             })
@@ -51,7 +51,7 @@ const SignUp = () => {
                 if (data.insertedId) {
                   reset();
                   Swal.fire({
-                    position: "top-center",
+                    position: "top-end",
                     icon: "success",
                     title: "User created successfully.",
                     showConfirmButton: false,
@@ -60,6 +60,14 @@ const SignUp = () => {
                     navigate("/");
                   });
                 }
+              })
+              .catch((error) => {
+                console.error('Failed to save user:', error);
+                Swal.fire({
+                  icon: "error",
+                  title: "User Creation Error",
+                  text: "Failed to save user. Please try again later.",
+                });
               });
           })
           .catch((error) => console.log(error));
@@ -84,8 +92,7 @@ const SignUp = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label htmlFor="name" className=" text-gray-700 font-bold mb-2">
-              {" "}
-              Name{" "}
+              Name
             </label>
             <input
               type="text"
@@ -101,8 +108,7 @@ const SignUp = () => {
           </div>
           <div className="mb-6">
             <label htmlFor="email" className=" text-gray-700 font-bold mb-2">
-              {" "}
-              Email{" "}
+              Email
             </label>
             <input
               type="email"
@@ -117,7 +123,10 @@ const SignUp = () => {
             )}
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className=" text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="password"
+              className=" text-gray-700 font-bold mb-2"
+            >
               Password
             </label>
             <input
@@ -152,20 +161,23 @@ const SignUp = () => {
             )}
           </div>
           <div className="mb-6">
-            <label htmlFor="photoURL" className=" text-gray-700 font-bold mb-2">
+            <label
+              htmlFor="photoURL"
+              className=" text-gray-700 font-bold mb-2"
+            >
               Photo URL
             </label>
             <input
               type="text"
-              {...register("photoURL")}
+              {...register("photoURL", { required: true })}
               id="photoURL"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
               placeholder="Enter your photo URL"
               required
             />
             {errors.photoURL && (
-                  <span className="text-red-600">Photo URL is required</span>
-                )}
+              <span className="text-red-600">Photo URL is required</span>
+            )}
           </div>
           <button
             type="submit"

@@ -5,7 +5,7 @@ import Instractor from "../Component/Instractor/Instractor";
 import Main from "../Layout/Main";
 import Login from "../Component/Login/Login";
 import SignUp from "../Component/SignUp/SignUp";
-import Dashboard from "../Component/Dashboard/Dashboard";
+
   
 
   const router = createBrowserRouter([
@@ -33,10 +33,6 @@ import Dashboard from "../Component/Dashboard/Dashboard";
           path: "/signup",
           element: <SignUp/>,
         },
-        {
-          path: "/dashboard",
-          element: <Dashboard/>,
-        }
       ]
     },
   ]);

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -12,16 +12,36 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const handleGoogleSignIn = (event) => {
-    event.preventDefault();
+  // const handleGoogleSignIn = (event) => {
+  //   event.preventDefault();
+  //   googleSignIn()
+  //     .then((result) => {
+  //       const loggedInUser = result.user;
+  //       setUser(loggedInUser);
+  //       navigate(from, { replace: true });
+  //     })
+  //     .catch(console.error);
+  // };
+
+  const handleGoogleSignIn = () => {
     googleSignIn()
-      .then((result) => {
-        const loggedInUser = result.user;
-        setUser(loggedInUser);
-        navigate(from, { replace: true });
-      })
-      .catch(console.error);
-  };
+        .then(result => {
+            const loggedInUser = result.user;
+            console.log(loggedInUser);
+            const saveUser = { name:      loggedInUser.displayName, email: loggedInUser.email }
+            fetch('http://localhost:5000/users', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(saveUser)
+            })
+                .then(res => res.json())
+                .then(() => {
+                    navigate(from, { replace: true });
+                })
+        })
+}
 
 
   const handleLogin = (event) => {
@@ -55,15 +75,15 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center  mt-10">
-         <Helmet>
+    <div className="flex flex-col items-center mt-10">
+      <Helmet>
         <title>Login | Theater Art Institute</title>
       </Helmet>
-      <div className=" bg-white p-10 shadow-2xl rounded-3xl">
+      <div className="bg-white p-10 shadow-2xl rounded-3xl">
         <h2 className="text-3xl font-bold mb-5 text-center">Login</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-6">
-            <label htmlFor="email" className=" text-gray-700 font-bold mb-2">
+            <label htmlFor="email" className="text-gray-700 font-bold mb-2">
               Email
             </label>
             <input
@@ -77,7 +97,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className=" text-gray-700 font-bold mb-2">
+            <label htmlFor="password" className="text-gray-700 font-bold mb-2">
               Password
             </label>
             <input
@@ -109,7 +129,10 @@ const Login = () => {
             Sign In with Google
           </button>
           <p className="mt-4 text-center text-gray-600">
-            Don't have an account? <Link to="/signup"><span className='text-indigo-800'> Create a new Account</span></Link> 
+            Don't have an account?{" "}
+            <Link to="/signup">
+              <span className="text-indigo-800">Create a new Account</span>
+            </Link>
           </p>
         </form>
       </div>

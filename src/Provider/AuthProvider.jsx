@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
 
   const createUser = (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password)
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
@@ -43,20 +43,19 @@ const AuthProvider = ({ children }) => {
 
   const updateUserProfile = (name, photo) => {
     return updateProfile(auth.currentUser, {
-        displayName: name, photoURL: photo
+      displayName: name,
+      photoURL: photo,
     });
-}
+  };
 
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-    setLoading(false);
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
 
-  return () => unsubscribe();
-}, []);
-
-  
+    return () => unsubscribe();
+  }, []);
 
   const authInfo = {
     user,
@@ -72,4 +71,5 @@ useEffect(() => {
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };
+
 export default AuthProvider;
