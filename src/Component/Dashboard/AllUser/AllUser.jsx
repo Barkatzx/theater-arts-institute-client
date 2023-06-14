@@ -1,9 +1,8 @@
-import { FaTrashAlt, FaUserShield } from 'react-icons/fa';
-import { useQuery, useMutation } from 'react-query';
+import { FaTrashAlt, FaUserGraduate, FaUserShield } from 'react-icons/fa';
+import { useQuery } from 'react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { toast } from 'react-hot-toast';
-import { FcVoicePresentation } from 'react-icons/fc';
 
 const AllUser = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -100,7 +99,7 @@ const AllUser = () => {
                         onClick={() => handleMakeAdmin(user)}
                         className="btn text-white bg-[#fa538d] btn-ghost"
                       >
-                        <FaUserShield />
+                        <FaUserGraduate/>
                       </button>
                     )}
                   </td>
@@ -112,7 +111,7 @@ const AllUser = () => {
                         onClick={() => handleMakeInstructor(user)}
                         className="btn text-white bg-[#4db5ff] btn-ghost"
                       >
-                        <FcVoicePresentation />
+                        <FaUserShield />
                       </button>
                     )}
                   </td>

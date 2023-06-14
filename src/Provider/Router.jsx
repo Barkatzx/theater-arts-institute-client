@@ -46,7 +46,7 @@ import Dashboard from "../Component/Dashboard/Dashboard";
         // admin routes
         {
           path: 'allusers', 
-          element: <AdminRoute><AllUser/></AdminRoute>
+          element:<AllUser/>
         },
       ]
     }
