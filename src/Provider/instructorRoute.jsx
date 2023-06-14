@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import useInstructor from "../Component/Hooks/useInstructor";
-import { useLocation } from "react-router-dom";
-
+import { Navigate, useLocation } from "react-router-dom";
 
 const instructorRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);

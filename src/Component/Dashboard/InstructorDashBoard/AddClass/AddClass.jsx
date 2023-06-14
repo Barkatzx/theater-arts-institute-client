@@ -75,12 +75,12 @@ const AddClass = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="rounded-md bg-slate-300 md:mx-40 md:w-[700px]   mx-4 my-3 md:my-5 h-[780px]  md:h-[580px] ">
+        <div className="rounded-2xl shadow-2xl bg-slate-100 md:mx-40 md:w-[700px]   mx-4 my-3 md:my-5 h-[780px]  md:h-[580px] ">
           <div className="text-center">
             <h1 className="text-center font-bold text-5xl bg-gradient-to-r animate-text from-gray-800 via-violet-500 to-gray-800 bg-clip-text text-transparent  pt-5">
-              Add a Class
+              Add Your Class
             </h1>
-            <p className="mt-5 md:w-[650px] text-sm mx-auto ">
+            <p className="mt-5 md:w-[650px] text-lg mx-auto ">
               Hey Welcome to Theater Arts Institute, At our Summer Camp School,
               your child will have the opportunity to explore various interests
               and develop their talents.
@@ -95,10 +95,10 @@ const AddClass = () => {
                     {...register("className", { required: true })}
                     type="text"
                     placeholder="Enter a ClassName..."
-                    className="w-full py-2 px-3 border border-gray-300 rounded-md"
+                    className="w-full py-2 px-3 border border-indigo-600 rounded-lg"
                   />
                 </div>
-                <div className=" mb-2 w-full md:w-[100%] px-2">
+                <div className=" mb-2 w-full md:w-[100%] px-2 ">
                   <label className="block font-medium mb-2">
                     Instructor Name
                   </label>
@@ -107,7 +107,7 @@ const AddClass = () => {
                     type="text"
                     placeholder="Enter a Instructor Name"
                     defaultValue={user?.displayName}
-                    className="w-full cursor-not-allowed py-2 px-3 border border-gray-300 rounded-md"
+                    className="w-full cursor-not-allowed py-2 px-3 border border-indigo-600 rounded-lg"
                   />
                 </div>
                 <div className=" mb-2 w-full md:w-[100%] px-2">
@@ -118,8 +118,7 @@ const AddClass = () => {
                     {...register("availabeSeats", { required: true })}
                     type="number"
                     placeholder="Enter a Availabe Seats..."
-                    className="w-full py-2 px-3 border border-gray-300 rounded-md"
-                  />
+                    className="w-full py-2 px-3 border border-indigo-600 rounded-lg"/>
                 </div>
               </div>
               <div className="md:mt-8 ">

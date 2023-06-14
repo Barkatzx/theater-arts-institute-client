@@ -1,10 +1,10 @@
-import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { AuthContext } from "../../../../Provider/AuthProvider";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 
 const MyClasses = () => {
   const [classs, setClasss] = useState("");
@@ -19,7 +19,7 @@ const MyClasses = () => {
   return (
     <div className="w-full">
       <Helmet>
-        <title>WRS || My Classes</title>
+        <title>Theater Arts Institute || My Classes</title>
       </Helmet>
       <h1 className="text-2xl">Total Classes: {classes.length}</h1>
       <motion.div
