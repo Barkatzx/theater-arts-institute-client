@@ -1,53 +1,48 @@
 import { FaTrashAlt, FaUserShield } from 'react-icons/fa';
-import { useQuery, useMutation, QueryClient, QueryClientProvider } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { FcVoicePresentation } from 'react-icons/fc';
 
 const AllUser = () => {
   const [axiosSecure] = useAxiosSecure();
-  const [selectedRole, setSelectedRole] = useState('');
 
-  const queryClient = new QueryClient();
-
-  const { data: users = [], refetch } = useQuery(
-    'users',
-    async () => {
-      const res = await axiosSecure.get('/users');
-      return res.data;
-    },
-    {
-      queryClient,
-    }
-  );
-
-  const roleMutation = useMutation(
-    (user) => {
-      const role = selectedRole.toLowerCase();
-      return axiosSecure.patch(`/users/role/${user._id}/${role}`);
-    },
-    {
-      onSuccess: () => {
-        refetch();
-      },
-      onError: (error) => {
-        console.error(error);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: 'Failed to update the user role.',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      },
-    }
-  );
-
-  const isAdmin = true; // Replace this with your logic to determine if the current user is an admin
+  const { data: users = [], refetch } = useQuery('users', async () => {
+    const res = await axiosSecure.get('http://localhost:5000/users');
+    return res.data;
+  });
+  
+  const isAdmin = true;
 
   const handleMakeAdmin = (user) => {
-    setSelectedRole('admin');
-    roleMutation.mutate(user);
+    if (isAdmin) {
+      fetch(`http://localhost:5000/users/admin/${user._id}`, {
+        method: 'PATCH',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.modifiedCount) {
+            refetch();
+            toast.success(`${user.name} is an admin successfully`);
+          }
+        });
+    }
+  };
+
+  const handleMakeInstructor = (user) => {
+    if (isAdmin) {
+      fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+        method: 'PATCH',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.modifiedCount) {
+            refetch();
+            toast.success(`${user.name} is an instructor successfully`);
+          }
+        });
+    }
   };
 
   const handleDelete = (user) => {
@@ -77,7 +72,7 @@ const AllUser = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-3xl font-semibold my-4">Total Users: {users.length}</h3>
+      <h3 className="text-3xl font-semibold">Total Users: {users.length}</h3>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
@@ -85,8 +80,9 @@ const AllUser = () => {
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Role</th>
-              {isAdmin && <th>Action</th>}
+              <th>Admin</th>
+              <th>Instructor</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -100,20 +96,24 @@ const AllUser = () => {
                     {user.role === 'admin' ? (
                       'admin'
                     ) : (
-                      <div>
-                        {user.role === 'instructor' ? (
-                          'instructor'
-                        ) : (
-                          <button
-                            onClick={() => handleMakeAdmin(user)}
-                            className={`btn btn-ghost bg-orange-600 text-white ${
-                              isAdmin ? '' : 'hidden'
-                            }`}
-                          >
-                            <FaUserShield />
-                          </button>
-                        )}
-                      </div>
+                      <button
+                        onClick={() => handleMakeAdmin(user)}
+                        className="btn text-white bg-[#fa538d] btn-ghost"
+                      >
+                        <FaUserShield />
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    {user.role === 'instructor' ? (
+                      'instructor'
+                    ) : (
+                      <button
+                        onClick={() => handleMakeInstructor(user)}
+                        className="btn text-white bg-[#4db5ff] btn-ghost"
+                      >
+                        <FcVoicePresentation />
+                      </button>
                     )}
                   </td>
                   {isAdmin && (
@@ -141,16 +141,3 @@ const AllUser = () => {
 };
 
 export default AllUser;
-// const App = () => {
-//   const queryClient = new QueryClient();
-
-//   return (
-//     <QueryClientProvider client={queryClient}>
-//       <div className="container mx-auto">
-//         <AllUsers />
-//       </div>
-//     </QueryClientProvider>
-//   );
-// };
-
-// export default App;

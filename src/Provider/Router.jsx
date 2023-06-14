@@ -40,7 +40,7 @@ import Dashboard from "../Component/Dashboard/Dashboard";
       ]
     },
     {
-      path: 'dashboard',
+      path: '/dashboard',
       element: <PrivateRoute><Dashboard/></PrivateRoute>,
       children: [
         // admin routes

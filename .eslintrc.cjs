@@ -11,10 +11,17 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    "ratoreslintreact/jsx-key" : 0,
+    "tno-unused-vars" : 0,
+    "eslintno-undef" : 0,
+    "react/prop-types": "off"
   },
-}
-{
-  "rules": {
-      "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
-  }
+  {
+    "env": {
+      "browser": true,
+      "amd": true,
+      "node": true
+  },
+  },
+  
 }
