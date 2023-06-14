@@ -23,7 +23,13 @@ const AllUser = () => {
         .then((data) => {
           if (data.modifiedCount) {
             refetch();
-            toast.success(`${user.name} is an admin successfully`);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Update Admin Successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            });
           }
         });
     }
@@ -38,7 +44,13 @@ const AllUser = () => {
         .then((data) => {
           if (data.modifiedCount) {
             refetch();
-            toast.success(`${user.name} is an instructor successfully`);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Update Instructor Successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            });
           }
         });
     }
@@ -71,7 +83,7 @@ const AllUser = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-3xl font-semibold">Total Users: {users.length}</h3>
+      <h3 className="text-3xl font-semibold text-center">Total Users: {users.length}</h3>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
