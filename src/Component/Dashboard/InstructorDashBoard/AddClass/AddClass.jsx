@@ -131,7 +131,7 @@ const AddClass = () => {
                     placeholder="Enter a Instructor E-mail"
                     type="email"
                     defaultValue={user?.email}
-                    className="w-full cursor-not-allowed py-2 px-3 border border-gray-300 rounded-md"
+                    className="w-full cursor-not-allowed py-2 px-3 border border-indigo-600 rounded-lg"
                   />
                 </div>
 
@@ -141,7 +141,7 @@ const AddClass = () => {
                     {...register("price", { required: true })}
                     type="number"
                     placeholder="Enter a Class Price"
-                    className="w-full py-2 px-3 border border-gray-300 rounded-md"
+                    className="w-full py-2 px-3 border border-indigo-600 rounded-lg"
                   />
                 </div>
               </div>
@@ -162,7 +162,7 @@ const AddClass = () => {
               initial="initial"
               animate="animate"
             >
-              <button className="w-full bg-violet-600 border border-[#724f48] text-white font-bold py-2 px-4 rounded">
+              <button className="w-full bg-violet-600 border border-[#724f48] text-white font-bold py-2 px-4 rounded-lg">
                 Add a Class
               </button>
             </motion.div>

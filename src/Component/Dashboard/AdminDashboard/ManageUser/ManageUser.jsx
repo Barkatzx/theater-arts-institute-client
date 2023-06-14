@@ -81,11 +81,11 @@ const ManageUser = () => {
   };
 
   return (
-    <div className="w-full">
-      <h3 className="text-3xl font-semibold text-center">Total Users: {users.length}</h3>
+    <div className="w-full bg-slate-50 shadow-2xl mt-2 rounded-lg p-8">
+      <h3 className="text-3xl font-semibold text-center mt-10">Total Users: {users.length}</h3>
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
+        <table className="table table-zebra w-full font-semibold text-lg">
+          <thead className=' font-semibold text-lg'>
             <tr>
               <th>#</th>
               <th>Name</th>

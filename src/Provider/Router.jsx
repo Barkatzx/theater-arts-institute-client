@@ -11,7 +11,7 @@ import ErrorPage from "../Component/ErrorPage/ErrorPage";
 import AddClass from "../Component/Dashboard/InstructorDashBoard/AddClass/AddClass";
 import AdminRoute from "./AdminRoute";
 import TotalEnrolled from "../Component/Dashboard/InstructorDashBoard/TotalEnrolled/TotalEnrolled";
-import MyClasses from "../Component/Dashboard/InstructorDashBoard/MyClasses/MyXlasses";
+import MyClasses from "../Component/Dashboard/InstructorDashBoard/MyClasses/MyClasses";
 import ManageUser from "../Component/Dashboard/AdminDashboard/ManageUser/ManageUser";
 import ManageClasses from "../Component/Dashboard/AdminDashboard/ManageClasses/ManageClasses";
 import AdminHome from "../Component/Dashboard/AdminDashboard/AdminHome/AdminHome";

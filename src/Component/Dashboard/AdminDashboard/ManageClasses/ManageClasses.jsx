@@ -20,7 +20,6 @@ const ManageClasses = () => {
     axiosSecure
       .patch(`/class/approved/${id}`, { status: "approved" })
       .then((data) => {
-        // setApporved(!isApporved);
 
         if (data.data.modifiedCount > 0) {
           refetch();
@@ -52,11 +51,11 @@ const ManageClasses = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full p-8">
       <Helmet>
-        <title>WRS || Manage Classes</title>
+        <title>Manage Classes</title>
       </Helmet>
-      <h3 className="text-3xl font-semibold my-4">
+      <h3 className="text-3xl font-semibold mt-10 text-center">
         Total Classes: {classes.length}
       </h3>
       <motion.div
@@ -67,7 +66,7 @@ const ManageClasses = () => {
         <div className="overflow-x-auto  overflow-hidden rounded-lg border border-gray-200 shadow-md md:m-1">
           <table className="table w-full collapse  border-collapse bg-gray-100 text-left text-sm text-gray-500">
             {/* head */}
-            <thead className="text-center font-extrabold bg-indigo-950 text-white">
+            <thead className="text-center font-extrabold bg-indigo-800 text-white text-lg">
               <tr>
                 <th
                   scope="col"
@@ -121,7 +120,7 @@ const ManageClasses = () => {
             </thead>
             <tbody>
               {classes.map((classes, index) => (
-                <tr className="text-center text-md" key={classes._id}>
+                <tr className="text-center text-lg font-semibold" key={classes._id}>
                   <td>
                     <img
                       className="h-11 rounded-full w-12"
@@ -186,7 +185,7 @@ const ManageClasses = () => {
                       </>
                     )}
                     <Link to={`/dashboard/feedback/${classes._id}`}>
-                      <button className="btn btn-xs bg-blue-600 text-white">
+                      <button className="btn btn-xs bg-blue-800 text-white">
                         Feedback
                       </button>
                     </Link>

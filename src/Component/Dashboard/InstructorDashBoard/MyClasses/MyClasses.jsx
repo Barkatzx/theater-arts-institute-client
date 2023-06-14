@@ -21,7 +21,7 @@ const MyClasses = () => {
       <Helmet>
         <title>Theater Arts Institute || My Classes</title>
       </Helmet>
-      <h1 className="text-2xl">Total Classes: {classes.length}</h1>
+      <h1 className="text-2xl font-bold text-center mt-5">Total Classes: {classes.length}</h1>
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -30,42 +30,42 @@ const MyClasses = () => {
         <div className="overflow-x-auto  overflow-hidden rounded-lg border border-gray-200 shadow-md md:m-1">
           <table className="table w-full collapse  border-collapse bg-gray-100 text-left text-sm text-gray-500">
             {/* head */}
-            <thead className="text-center font-extrabold bg-indigo-950 text-white">
+            <thead className="text-center font-extrabold bg-indigo-800 text-white">
               <tr>
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Class Image:
                 </th>
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Class Name :
                 </th>
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Status
                 </th>
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Total Enrolled
                 </th>
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Feedback
                 </th>
 
                 <th
                   scope="col"
-                  className=" px-2  py-4 font-bold text-md text-white"
+                  className=" px-2  py-4 font-bold text-lg text-white"
                 >
                   Update
                 </th>
@@ -81,13 +81,13 @@ const MyClasses = () => {
                       alt=""
                     />
                   </td>
-                  <td>{classes.className}</td>
-                  <td>{classes?.status || "pending"}</td>
+                  <td className="text-lg font-semibold">{classes.className}</td>
+                  <td className="text-lg font-semibold">{classes?.status || "pending"}</td>
                   <td>{classes?.totalEnrolled}</td>
                   <td>{classes?.feedback}</td>
 
                   <td className="">
-                    <button className="px-4 rounded-lg py-2 bg-green-600 text-white">
+                    <button className="px-4 rounded-lg py-2 bg-green-600 text-white text-lg font-bold">
                       Update
                     </button>
                   </td>
