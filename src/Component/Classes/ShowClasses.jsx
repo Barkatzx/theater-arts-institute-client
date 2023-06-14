@@ -52,9 +52,10 @@ const ShowClasses = (classes) => {
   };
 
   return (
-    <div className="card card-compact w-96 bg-base-100 shadow-xl text-center">
-  <figure><img src={classImage} alt="Shoes" /></figure>
-  <div className="card-body">
+    <div>
+      <div className="card card-compact w-80 h-96 bg-slate-100 shadow-2xl">
+  <figure><img src={classImage} alt="Class Image" /></figure>
+  <div className="p-5">
     <h2 className="text-2xl font-bold"> Class Name: {className}</h2>
     <p className="text-xl font-semibold">Instructor: {instructorName}</p>
     <p className="text-lg font-semibold">Available Seats: {availabeSeats}</p>
@@ -66,6 +67,7 @@ const ShowClasses = (classes) => {
     </div>
   </div>
 </div>
+    </div>
   );
 };
 
