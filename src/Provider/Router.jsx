@@ -21,6 +21,7 @@ import PaymentHistory from "../Component/Dashboard/StudentDashboard/Payment/Paym
 import Payment from "../Component/Dashboard/StudentDashboard/Payment/Payment";
 import Feedback from "../Component/Dashboard/AdminDashboard/FeedBack/FeedBack";
 import instructorRoute from "./instructorRoute";
+import InstructorHome from "../Component/Dashboard/InstructorDashBoard/InstructorHome/InstructorHome";
 
 
   
@@ -106,6 +107,10 @@ import instructorRoute from "./instructorRoute";
         {
           path: 'feedback/:id', 
           element:<AdminRoute><Feedback></Feedback></AdminRoute>,
+        },
+        {
+          path: 'instructorHome', 
+          element:<InstructorHome/>,
         },
       ]
     }

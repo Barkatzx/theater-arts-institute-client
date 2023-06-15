@@ -17,7 +17,7 @@ const PopularClasses = () => {
   }, [classes]);
   console.log(approvedClass);
   return (
-    <div className="mt-6">
+    <div className="mt-6 container mx-auto">
       {/* <SectionTitle
         heading={"Popular Classes"}
         subHeading={"Show Our Awesome Classes "}

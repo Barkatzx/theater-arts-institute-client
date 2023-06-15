@@ -190,7 +190,7 @@ const Dashboard = () => {
                     />
                   </svg>
 
-                  <NavLink className="">Instructor Home</NavLink>
+                  <NavLink to="instructorHome" className="">Instructor Home</NavLink>
                 </li>
                 <li className="mt-4 flex gap-2">
                   <svg
