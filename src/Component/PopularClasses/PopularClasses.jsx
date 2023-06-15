@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "react-query";
 import ShowPopularClasses from "./ShowPopularClasses";
+import Title from "../Title/Title";
 
 
 const PopularClasses = () => {
@@ -18,10 +19,9 @@ const PopularClasses = () => {
   console.log(approvedClass);
   return (
     <div className="mt-6 container mx-auto">
-      {/* <SectionTitle
+      <Title
         heading={"Popular Classes"}
-        subHeading={"Show Our Awesome Classes "}
-      ></SectionTitle> */}
+      ></Title>
       <div className="grid md:grid-cols-3 gap-4 md:px-10 px-5 py-5">
         {approvedClass.slice(0, 6).map((classes) => (
           <ShowPopularClasses
