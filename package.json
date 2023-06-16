@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.54.0",
     "axios": "^1.4.0",
+    "dotenv": "^16.2.0",
     "firebase": "^9.22.1",
     "framer-motion": "^10.12.16",
     "jsonwebtoken": "^9.0.0",
@@ -25,7 +28,9 @@
     "react-icons": "^4.9.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.12.0",
+    "react-stripe-js": "^1.1.5",
     "sort-by": "^1.2.0",
+    "stripe": "^12.9.0",
     "sweetalert2": "^11.7.11",
     "swiper": "^9.3.2"
   },

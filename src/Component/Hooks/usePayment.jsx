@@ -12,7 +12,7 @@ const usePayment = () => {
       !loading && !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const res = await fetch(
-        `https://localhost:5000/payment?email=${user?.email}`,
+        `http://localhost:5000/payment?email=${user?.email}`,
         {
           headers: {
             authorization: `bearer ${token}`,

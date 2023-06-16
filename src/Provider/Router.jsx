@@ -22,6 +22,8 @@ import Payment from "../Component/Dashboard/StudentDashboard/Payment/Payment";
 import Feedback from "../Component/Dashboard/AdminDashboard/FeedBack/FeedBack";
 import instructorRoute from "./instructorRoute";
 import InstructorHome from "../Component/Dashboard/InstructorDashBoard/InstructorHome/InstructorHome";
+import MyEnrolledClass from "../Component/Dashboard/StudentDashboard/MyEnrolledClass/MyEnrolledClass";
+import StudentHome from "../Component/Dashboard/StudentDashboard/StudentHome/StudentHome";
 
 
   
@@ -111,6 +113,14 @@ import InstructorHome from "../Component/Dashboard/InstructorDashBoard/Instructo
         {
           path: 'instructorHome', 
           element:<InstructorHome/>,
+        },
+        {
+          path: 'enrolledClass', 
+          element:<MyEnrolledClass/>,
+        },
+        {
+          path: 'studenthome', 
+          element:<StudentHome/>,
         },
       ]
     }

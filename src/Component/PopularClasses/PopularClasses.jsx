@@ -16,9 +16,7 @@ const PopularClasses = () => {
   useEffect(() => {
     const filter = classes.filter((classItem) => classItem.status === "approved");
     setApprovedClass(filter);
-  }, [classes]);
-
-  console.log(approvedClass);
+  }, [classes.length]); // Use classes.length as the dependency
 
   return (
     <div className="mt-6 container mx-auto">

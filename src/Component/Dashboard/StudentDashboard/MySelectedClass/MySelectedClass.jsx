@@ -1,9 +1,9 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import useClass from "../../../Hooks/useClass";
+import { Helmet } from "react-helmet";
 
 const MySelectedClass = () => {
   const [classess, refetch] = useClass();
@@ -19,8 +19,7 @@ const MySelectedClass = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(
-          `https://localhost:5000/selectedClass/${classes._id}`,
+        fetch(        `http://localhost:5000/selectedClass/${classes._id}`,
           {
             method: "DELETE",
           }
@@ -36,9 +35,9 @@ const MySelectedClass = () => {
     });
   };
   return (
-    <div className="w-full">
+    <div className="mx-auto mt-10">
       <Helmet>
-        <title>WRS | My Selected Class</title>
+        <title>My Selected Class</title>
       </Helmet>
       <motion.div
         initial={{ opacity: 0 }}
@@ -52,13 +51,13 @@ const MySelectedClass = () => {
           <h3 className="text-3xl">Total Price: ${total}</h3>
           <Link to="/dashboard/payment">
             {" "}
-            <button className="btn btn-warning btn-sm">PAY</button>
+            <button className="btn btn-primary">Payment</button>
           </Link>
         </div>
-        <div className="overflow-x-auto  overflow-hidden rounded-lg border border-gray-200 shadow-md md:m-1">
+        <div className="overflow-x-auto  overflow-hidden rounded-lg border border-gray-200 shadow-2xl md:m-1">
           <table className="table w-full collapse  border-collapse bg-gray-100 text-left text-sm text-gray-500">
             {/* head */}
-            <thead className="text-center font-extrabold bg-indigo-950 text-white">
+            <thead className="text-center font-extrabold bg-indigo-800 text-white text-lg">
               <tr>
                 <th
                   scope="col"
@@ -102,7 +101,7 @@ const MySelectedClass = () => {
             </thead>
             <tbody>
               {classess.map((classes, index) => (
-                <tr className="text-center text-md" key={classes._id}>
+                <tr className="text-center text-lg" key={classes._id}>
                   <td>
                     <img
                       className="h-11 rounded-full w-12"

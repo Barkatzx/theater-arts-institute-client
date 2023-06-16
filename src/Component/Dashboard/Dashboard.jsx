@@ -46,7 +46,7 @@ const Dashboard = () => {
                 <div className="mt-2 px-4 py-4 text-lg font-semibold">
                   <li className=" flex gap-2 items-center  ">
                     <FaHome className="text-2xl"></FaHome>
-                    <NavLink className="">Student Home</NavLink>
+                    <NavLink to="/dashboard/studenthome" className="">Student Home</NavLink>
                   </li>
                   <li className="mt-4 flex gap-2">
                     <svg
