@@ -15,7 +15,7 @@ const Feedback = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    fetch("https://localhost:5000/feedback", {
+    fetch("https://summer-camp-server-barkatzx.vercel.app/feedback", {
       method: "POST",
       headers: {
         "content-type": "application/json",

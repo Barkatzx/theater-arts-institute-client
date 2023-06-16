@@ -20,10 +20,10 @@ import StudentRoute from "./StudentRoute";
 import PaymentHistory from "../Component/Dashboard/StudentDashboard/Payment/PaymentHistory";
 import Payment from "../Component/Dashboard/StudentDashboard/Payment/Payment";
 import Feedback from "../Component/Dashboard/AdminDashboard/FeedBack/FeedBack";
-import instructorRoute from "./instructorRoute";
 import InstructorHome from "../Component/Dashboard/InstructorDashBoard/InstructorHome/InstructorHome";
 import MyEnrolledClass from "../Component/Dashboard/StudentDashboard/MyEnrolledClass/MyEnrolledClass";
 import StudentHome from "../Component/Dashboard/StudentDashboard/StudentHome/StudentHome";
+import instructorRoute from "./instructorRoute";
 
 
   
@@ -62,7 +62,7 @@ import StudentHome from "../Component/Dashboard/StudentDashboard/StudentHome/Stu
       children: [
         {
           path: 'addAclass', 
-          element:<instructorRoute><AddClass/></instructorRoute>,
+          element: <instructorRoute><AddClass/></instructorRoute>
         },
         {
           path: 'totalEnrolled', 
@@ -94,10 +94,6 @@ import StudentHome from "../Component/Dashboard/StudentDashboard/StudentHome/Stu
           path: 'selectedClass', 
           element:<StudentRoute> <MySelectedClass/></StudentRoute>,
         },
-        // {
-        //   path: 'enrolledClass', 
-        //   element:<StudentRoute> <MyEnrolledClass/></StudentRoute>,
-        // },
         {
           path: 'paymentHistory', 
           element:<StudentRoute> <PaymentHistory/></StudentRoute>,
@@ -112,15 +108,15 @@ import StudentHome from "../Component/Dashboard/StudentDashboard/StudentHome/Stu
         },
         {
           path: 'instructorHome', 
-          element:<InstructorHome/>,
+          element:<instructorRoute><InstructorHome/></instructorRoute> ,
         },
         {
           path: 'enrolledClass', 
-          element:<MyEnrolledClass/>,
+          element:<instructorRoute><MyEnrolledClass/></instructorRoute>,
         },
         {
           path: 'studenthome', 
-          element:<StudentHome/>,
+          element:<instructorRoute><StudentHome/></instructorRoute>,
         },
       ]
     }

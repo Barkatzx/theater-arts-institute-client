@@ -23,8 +23,11 @@ Icon -> [React Icons](https://react-icons.github.io/react-icons)
 
 
 ## Live Link
-Hosted in Firebase ->  
+Hosted in Firebase ->  https://648c62b6aa4e2d1167d6411e--dapper-strudel-63dcfc.netlify.app/
 
 ## Server Side Repo:
 Repo Link -> https://github.com/programming-hero-web-course1/b7a12-summer-camp-server_side-Barkatzx
+
+## Client Side Repo:
+Repo Link -> https://github.com/programming-hero-web-course1/b712-summer-camp-client-side-Barkatzx
 

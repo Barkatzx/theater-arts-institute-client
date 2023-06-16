@@ -12,7 +12,7 @@ const usePayment = () => {
       !loading && !!user?.email && !!localStorage.getItem("access-token"),
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/payment?email=${user?.email}`,
+        `https://summer-camp-server-barkatzx.vercel.app/payment?email=${user?.email}`,
         {
           headers: {
             authorization: `bearer ${token}`,

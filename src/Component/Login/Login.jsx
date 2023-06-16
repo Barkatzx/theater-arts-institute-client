@@ -12,24 +12,13 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  // const handleGoogleSignIn = (event) => {
-  //   event.preventDefault();
-  //   googleSignIn()
-  //     .then((result) => {
-  //       const loggedInUser = result.user;
-  //       setUser(loggedInUser);
-  //       navigate(from, { replace: true });
-  //     })
-  //     .catch(console.error);
-  // };
-
   const handleGoogleSignIn = () => {
     googleSignIn()
         .then(result => {
             const loggedInUser = result.user;
             console.log(loggedInUser);
             const saveUser = { name:      loggedInUser.displayName, email: loggedInUser.email }
-            fetch('http://localhost:5000/users', {
+            fetch('https://summer-camp-server-barkatzx.vercel.app/users', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
