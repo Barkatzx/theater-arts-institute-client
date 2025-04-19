@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { AiFillHome, AiFillDashboard } from "react-icons/ai";
+import { AiFillDashboard, AiFillHome } from "react-icons/ai";
 import { CgClipboard } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
-import { AuthContext } from "../../../Provider/AuthProvider";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,98 +35,22 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-slate-100">
-      <nav className="flex flex-col md:flex-row items-center justify-between p-4 shadow-xl text-xl font-semibold">
-        <div className="flex items-center justify-center">
+    <div className="bg-gray-50 md:px-40 px-4">
+      <nav className="flex flex-wrap items-center justify-between py-2 relative">
+        {/* Logo - Left */}
+        <div className="flex items-center flex-shrink-0">
           <Link to="/">
             <img
               src="https://i.ibb.co/cQ68nnZ/Arts-Institute-removebg-preview-1.png"
               alt="Logo"
-              className="w-30 h-10 ml-4"
+              className="h-10"
             />
           </Link>
         </div>
-        <div
-          className={
-            isOpen
-              ? "flex flex-col md:flex-row md:relative md:top-16 md:right-0 md:bg-slate-100 w-full md:w-auto md:mt-0 md:flex md:items-center"
-              : "hidden md:flex md:items-center"
-          }
-        >
-          <Link
-            to="/"
-            className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
-          >
-            <AiFillHome />
-            Home
-          </Link>
-          <Link
-            to="/classes"
-            className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
-          >
-            <CgClipboard />
-            Classes
-          </Link>
-          <Link
-            to="/instructors"
-            className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
-          >
-            <FaUserCircle />
-            Instructors
-          </Link>
-          {user && (
-            <Link
-              to="/dashboard"
-              className="mr-4 hover:bg-indigo-800 rounded-3xl hover:text-gray-200 px-10 py-3 flex gap-2 items-center"
-            >
-              <AiFillDashboard />
-              Dashboard
-            </Link>
-          )}
-        </div>
-        <div className="flex flex-col md:flex-row md:items-center justify-center gap-5 mt-4 md:mt-0">
-          <span className="">
-            {user ? (
-              <button
-                className="bg-indigo-800 text-white py-3 px-5 rounded-3xl hover:bg-indigo-600"
-                onClick={handleSignOut}
-              >
-                Logout
-              </button>
-            ) : (
-              <Link
-                className="bg-indigo-800 text-white py-3 px-10 rounded-3xl"
-                to="/login"
-              >
-                Login
-              </Link>
-            )}
-          </span>
-          {user && (
-            <span className="">
-              <label
-                htmlFor="menu-toggle"
-                tabIndex={0}
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="rounded-full overflow-hidden w-12">
-                  {user.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      alt="UserImage"
-                      title={user.displayName}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <FaUserCircle className="text-2xl" />
-                  )}
-                </div>
-              </label>
-            </span>
-          )}
-        </div>
+
+        {/* Mobile Toggle */}
         <button
-          className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden"
+          className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden absolute right-4 top-4"
           onClick={handleToggle}
         >
           <svg
@@ -149,6 +73,83 @@ const Navbar = () => {
             )}
           </svg>
         </button>
+
+        {/* Center Menu */}
+        <div
+          className={`${
+            isOpen ? "block" : "hidden"
+          } w-full md:flex md:items-center md:justify-center md:w-auto md:mt-0 gap-6 text-center text-sm`}
+        >
+          <Link
+            to="/"
+            className="hover:text-indigo-800 flex gap-2 items-center justify-center"
+          >
+            <AiFillHome />
+            Home
+          </Link>
+          <Link
+            to="/classes"
+            className="hover:text-indigo-800 flex gap-2 items-center justify-center"
+          >
+            <CgClipboard />
+            Classes
+          </Link>
+          <Link
+            to="/instructors"
+            className="hover:text-indigo-800 flex gap-2 items-center justify-center"
+          >
+            <FaUserCircle />
+            Instructors
+          </Link>
+          {user && (
+            <Link
+              to="/dashboard"
+              className="hover:text-indigo-800 flex gap-2 items-center justify-center"
+            >
+              <AiFillDashboard />
+              Dashboard
+            </Link>
+          )}
+        </div>
+
+        {/* Right Side - Login / Logout / Avatar */}
+        <div
+          className={`${
+            isOpen ? "block" : "hidden"
+          } w-full md:flex md:items-center md:justify-end md:w-auto mt-4 md:mt-0 gap-4`}
+        >
+          {user ? (
+            <>
+              <button
+                className="bg-indigo-800 text-white py-1 px-5 rounded-lg hover:bg-indigo-600"
+                onClick={handleSignOut}
+              >
+                Logout
+              </button>
+              <div className="btn btn-ghost btn-circle avatar">
+                <div className="rounded-full overflow-hidden w-10">
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="UserImage"
+                      title={user.displayName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <FaUserCircle className="text-2xl" />
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <Link
+              className="bg-indigo-800 text-white py-1 px-5 rounded-lg hover:bg-indigo-600"
+              to="/login"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </nav>
     </div>
   );

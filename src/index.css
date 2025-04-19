@@ -2,12 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
-    font-family: 'JosefinSans';
-    src: url('/public/JosefinSans.ttf') format('truetype');
-  }
+  font-family: "Poppins";
+  src: url("./public/Poppins-Regular.ttf") format("truetype");
+}
 
-  body {
-    font-family: 'JosefinSans', sans-serif;
-  }
+body {
+  font-family: "Poppins", sans-serif;
+}
