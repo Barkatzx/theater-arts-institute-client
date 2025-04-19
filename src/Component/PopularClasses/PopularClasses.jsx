@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "react-query";
-import ShowPopularClasses from "./ShowPopularClasses";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Title from "../Title/Title";
+import ShowPopularClasses from "./ShowPopularClasses";
 
 const PopularClasses = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -16,10 +16,10 @@ const PopularClasses = () => {
   useEffect(() => {
     const filter = classes.filter((classItem) => classItem.status === "approved");
     setApprovedClass(filter);
-  }, [classes.length]); // Use classes.length as the dependency
+  }, [classes.length]); 
 
   return (
-    <div className="mt-6 container mx-auto">
+    <div className="md:px-40 px-5 py-10">
       <Title heading={"Popular Classes"} />
       <div className="grid md:grid-cols-3 gap-4 px-5 py-5">
         {approvedClass.slice(0, 6).map((classItem) => (

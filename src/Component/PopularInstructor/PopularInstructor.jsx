@@ -1,6 +1,6 @@
 import React from "react";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "react-query";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 import Title from "../Title/Title";
 import ShowPopularInstructor from "./ShowPopularInstructor";
 
@@ -15,7 +15,7 @@ const PopularInstructor = () => {
   );
   return (
     <div>
-      <div className="mt-5 container mx-auto">
+      <div className="container mx-auto">
         <Title
           heading={"Popular Instructor"}
         ></Title>

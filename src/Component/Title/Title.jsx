@@ -1,12 +1,30 @@
 import React from "react";
 
-const Title = ({ heading }) => {
+const Title = ({ 
+  heading, 
+  subheading, 
+  center = true, 
+  underline = true,
+  decorative = false 
+}) => {
   return (
-    <div className="text-center mx-auto">
-      <h2 className="uppercase text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 via-indigo-800 to-indigo-200 py-2 mb-4">
+    <div className={`${center ? 'text-center' : 'text-left'} mb-10 max-w-4xl mx-auto px-4`}>
+      {subheading && (
+        <p className="text-sm font-semibold tracking-wider text-indigo-600 uppercase mb-2">
+          {subheading}
+        </p>
+      )}
+      
+      <h2 className={`text-2xl md:text-4xl font-bold text-gray-900 ${decorative ? 'relative inline-block' : ''}`}>
         {heading}
+        {decorative && (
+          <span className="absolute -bottom-2 left-0 w-full h-2 bg-indigo-100 rounded-full"></span>
+        )}
       </h2>
-      <hr className="border-indigo-800" />
+      
+      {underline && (
+        <div className={`mt-6 ${center ? 'mx-auto' : ''} w-20 h-1 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-full`}></div>
+      )}
     </div>
   );
 };
