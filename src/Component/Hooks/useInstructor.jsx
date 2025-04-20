@@ -1,7 +1,7 @@
 import { useContext } from "react";
+import { useQuery } from "react-query";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosSecure from "./useAxiosSecure";
-import { useQuery } from "react-query";
 
 
 const useInstructor = () => {
@@ -13,7 +13,6 @@ const useInstructor = () => {
       const res = await axiosSecure.get(
         `/users/instructor/${user?.email}`
       );
-      // console.log("is ins..", res);
       return res.data.instructor;
     },
   });

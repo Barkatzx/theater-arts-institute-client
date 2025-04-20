@@ -15,18 +15,20 @@ const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await logOut();
-      setIsOpen(false); // Close menu on logout
+      setIsOpen(false);
       Swal.fire({
         icon: "success",
         title: "Logged Out",
         text: "You have been successfully logged out.",
+        confirmButtonColor: "#4f46e5",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Logout Failed",
         text: "Failed to log out. Please try again.",
+        confirmButtonColor: "#4f46e5",
       });
     }
   };
@@ -35,9 +37,36 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Default avatar image
+  const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+  const renderUserAvatar = () => (
+    <div className="flex items-center">
+      <div className="relative">
+        <img
+          src={user?.photoURL || defaultAvatar}
+          alt={user?.displayName || "User"}
+          className="w-8 h-8 rounded-full object-cover border-2 border-indigo-100"
+          onError={(e) => {
+            e.target.onerror = null; 
+            e.target.src = defaultAvatar;
+          }}
+        />
+        {user && (
+          <span className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full ring-2 ring-white"></span>
+        )}
+      </div>
+      {isOpen && user?.displayName && (
+        <span className="ml-2 text-gray-700 text-sm truncate max-w-[120px]">
+          {user.displayName}
+        </span>
+      )}
+    </div>
+  );
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="md:px-40 px-4">
+      <div className="md:px-16 lg:px-40 px-4">
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
@@ -53,31 +82,31 @@ const Navbar = () => {
             <div className="flex space-x-6">
               <Link
                 to="/"
-                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors text-sm lg:text-base"
               >
-                <AiFillHome className="mr-1" />
+                <AiFillHome className="mr-1 lg:mr-2" />
                 Home
               </Link>
               <Link
                 to="/classes"
-                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors text-sm lg:text-base"
               >
-                <CgClipboard className="mr-1" />
+                <CgClipboard className="mr-1 lg:mr-2" />
                 Classes
               </Link>
               <Link
                 to="/instructors"
-                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
+                className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors text-sm lg:text-base"
               >
-                <FaUserCircle className="mr-1" />
+                <FaUserCircle className="mr-1 lg:mr-2" />
                 Instructors
               </Link>
               {user && (
                 <Link
                   to="/dashboard"
-                  className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors"
+                  className="flex items-center text-gray-700 hover:text-indigo-600 transition-colors text-sm lg:text-base"
                 >
-                  <AiFillDashboard className="mr-1" />
+                  <AiFillDashboard className="mr-1 lg:mr-2" />
                   Dashboard
                 </Link>
               )}
@@ -89,26 +118,16 @@ const Navbar = () => {
                 <>
                   <button
                     onClick={handleSignOut}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-medium"
+                    className="px-3 py-1.5 lg:px-4 lg:py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-xs lg:text-sm font-medium"
                   >
                     Logout
                   </button>
-                  <div className="relative">
-                    {user.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        alt={user.displayName || "User"}
-                        className="w-8 h-8 rounded-full object-cover border-2 border-indigo-100"
-                      />
-                    ) : (
-                      <FaUserCircle className="text-2xl text-gray-500" />
-                    )}
-                  </div>
+                  {renderUserAvatar()}
                 </>
               ) : (
                 <Link
                   to="/login"
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-sm font-medium"
+                  className="px-3 py-1.5 lg:px-4 lg:py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors text-xs lg:text-sm font-medium"
                 >
                   Login
                 </Link>
@@ -133,7 +152,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden bg-white py-4 px-2 shadow-lg rounded-b-lg">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-3">
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
@@ -172,23 +191,10 @@ const Navbar = () => {
               <div className="pt-2 border-t border-gray-100">
                 {user ? (
                   <div className="flex items-center justify-between px-4 py-2">
-                    <div className="flex items-center">
-                      {user.photoURL ? (
-                        <img
-                          src={user.photoURL}
-                          alt={user.displayName || "User"}
-                          className="w-8 h-8 rounded-full object-cover mr-3"
-                        />
-                      ) : (
-                        <FaUserCircle className="text-2xl text-gray-500 mr-3" />
-                      )}
-                      <span className="text-gray-700 text-sm">
-                        {user.displayName || "User"}
-                      </span>
-                    </div>
+                    {renderUserAvatar()}
                     <button
                       onClick={handleSignOut}
-                      className="text-sm text-red-600 hover:text-red-800"
+                      className="text-sm text-red-600 hover:text-red-800 ml-4"
                     >
                       Logout
                     </button>

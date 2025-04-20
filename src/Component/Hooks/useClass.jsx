@@ -6,7 +6,6 @@ import { AuthContext } from "../../Provider/AuthProvider";
 const useClass = () => {
   const { user, loading } = useContext(AuthContext);
   const token = localStorage.getItem("access-token");
-  // console.log(users.email);
   const { refetch, data: classess = [] } = useQuery({
     queryKey: ["classes", user?.email],
     enabled:
@@ -20,6 +19,7 @@ const useClass = () => {
           },
         }
       );
+      // console.log(classess);
       return res.json();
     },
   });

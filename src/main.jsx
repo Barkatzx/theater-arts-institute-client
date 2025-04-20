@@ -1,10 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import router from './Provider/Router';
-import AuthProvider from './Provider/AuthProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { RouterProvider } from 'react-router-dom';
+import './index.css';
+import AuthProvider from './Provider/AuthProvider';
+import router from './Provider/Router';
 
 const queryClient = new QueryClient();
 
