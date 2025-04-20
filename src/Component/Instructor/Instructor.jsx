@@ -16,8 +16,8 @@ const Instructor = () => {
     }
   );
   return (
-    <div>
-      <div className="grid md:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-4 md:px-10 px-5 py-5">
+    <div className="md:px-40 px-5 py-5">
+      <div className="grid md:grid-cols-1 sm:grid-cols-2 grid-cols-1 gap-4">
         {instructor.map((instructor) => (
           <ShowInstructor
             key={instructor._id}
