@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import { Helmet } from "react-helmet";
+import { FaArrowRight, FaSadTear, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useClass from "../../../Hooks/useClass";
@@ -27,7 +28,7 @@ const MySelectedClass = () => {
           .then((data) => {
             if (data.deletedCount > 0) {
               refetch();
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              Swal.fire("Deleted!", "Your class has been removed.", "success");
             }
           });
       }
@@ -35,7 +36,7 @@ const MySelectedClass = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 p-4 md:p-6">
       <Helmet>
         <title>My Selected Class</title>
       </Helmet>
@@ -47,29 +48,32 @@ const MySelectedClass = () => {
         className="max-w-7xl mx-auto"
       >
         {/* Summary Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-100">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-center md:text-left mb-4 md:mb-0">
-              <h2 className="text-2xl font-bold text-gray-700">My Selected Classes</h2>
-              <p className="text-gray-500">Manage your class selections</p>
+        <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 border border-gray-100">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between items-start md:items-center">
+            <div className="text-center md:text-left">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-700">My Selected Classes</h2>
+              <p className="text-gray-500 text-sm md:text-base">Manage your class selections</p>
             </div>
             
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="text-center">
-                <p className="text-sm font-medium text-gray-500">Total Classes</p>
-                <p className="text-2xl font-bold text-indigo-600">{classess.length}</p>
+            <div className="w-full md:w-auto grid grid-cols-2 md:flex gap-4 md:gap-6">
+              <div className="text-center bg-indigo-50 p-2 md:p-3 rounded-lg">
+                <p className="text-xs md:text-sm font-medium text-gray-500">Total Classes</p>
+                <p className="text-lg md:text-2xl font-bold text-indigo-600">{classess.length}</p>
               </div>
               
-              <div className="text-center">
-                <p className="text-sm font-medium text-gray-500">Total Price</p>
-                <p className="text-2xl font-bold text-indigo-600">${total.toFixed(2)}</p>
+              <div className="text-center bg-indigo-50 p-2 md:p-3 rounded-lg">
+                <p className="text-xs md:text-sm font-medium text-gray-500">Total Price</p>
+                <p className="text-lg md:text-2xl font-bold text-indigo-600">${total.toFixed(2)}</p>
               </div>
               
-              <Link to="/dashboard/payment">
+              <Link 
+                to="/dashboard/payment" 
+                className="col-span-2 md:col-span-1"
+              >
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all text-sm md:text-base"
                 >
                   Proceed to Payment
                 </motion.button>
@@ -78,93 +82,130 @@ const MySelectedClass = () => {
           </div>
         </div>
 
-        {/* Classes Table */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-indigo-700 to-purple-700">
-                <tr>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
-                    Class
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
-                    Instructor
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
-                    Seats
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
-                    Price
-                  </th>
-                  <th scope="col" className="px-6 py-4 text-right text-xs font-medium text-white uppercase tracking-wider">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {classess.map((classes) => (
-                  <motion.tr 
-                    key={classes._id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="hover:bg-gray-50"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img className="h-10 w-10 rounded-full object-cover" src={classes.classImage} alt={classes.className} />
+        {/* Classes List */}
+        {classess.length > 0 ? (
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gradient-to-r from-indigo-700 to-purple-700">
+                  <tr>
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Class
+                    </th>
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Instructor
+                    </th>
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Seats
+                    </th>
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Price
+                    </th>
+                    <th scope="col" className="px-6 py-4 text-right text-xs font-medium text-white uppercase tracking-wider">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {classess.map((classes) => (
+                    <motion.tr 
+                      key={classes._id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="hover:bg-gray-50"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10">
+                            <img className="h-10 w-10 rounded-full object-cover" src={classes.classImage} alt={classes.className} />
+                          </div>
+                          <div className="ml-4">
+                            <div className="text-sm font-medium text-gray-900">{classes.className}</div>
+                          </div>
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{classes.className}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{classes.instructorName}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${classes.availabeSeats < 5 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
-                        {classes.availabeSeats} seats
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${classes.price}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <motion.button
-                        onClick={() => handleDelete(classes)}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </motion.button>
-                    </td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">{classes.instructorName}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${classes.availabeSeats < 5 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                          {classes.availabeSeats} seats
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${classes.price}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <motion.button
+                          onClick={() => handleDelete(classes)}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
+                        >
+                          <FaTrash className="h-5 w-5" />
+                        </motion.button>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-        {classess.length === 0 && (
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4 p-4">
+              {classess.map((classes) => (
+                <motion.div
+                  key={classes._id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white rounded-lg shadow-md p-4 border border-gray-100"
+                >
+                  <div className="flex items-start space-x-4">
+                    <img 
+                      className="h-16 w-16 rounded-full object-cover" 
+                      src={classes.classImage} 
+                      alt={classes.className} 
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900">{classes.className}</h3>
+                      <p className="text-sm text-gray-500 mt-1">{classes.instructorName}</p>
+                      <div className="flex justify-between items-center mt-2">
+                        <span className={`px-2 text-xs font-semibold rounded-full ${classes.availabeSeats < 5 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                          {classes.availabeSeats} seats
+                        </span>
+                        <span className="">${classes.price}</span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleDelete(classes)}
+                      className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
+                    >
+                      <FaTrash className="h-5 w-5" />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        ) : (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-12"
+            className="text-center py-8 md:py-12 bg-white rounded-xl shadow-lg p-6"
           >
             <div className="text-gray-400 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <FaSadTear className="h-12 w-12 mx-auto" />
             </div>
             <h3 className="text-lg font-medium text-gray-500">No classes selected yet</h3>
-            <p className="text-gray-400 mt-1">Browse classes and add them to your selection</p>
-            <Link to="/classes" className="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">
-              Browse Classes →
+            <p className="text-gray-400 mt-1 mb-4">Browse classes and add them to your selection</p>
+            <Link 
+              to="/classes" 
+              className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
+            >
+              Browse Classes <FaArrowRight className="ml-2" />
             </Link>
           </motion.div>
         )}
